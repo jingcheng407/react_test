@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Input } from "antd";
+import { Input, Checkbox } from "antd";
 import "antd/dist/antd.css";
 import "./index.css";
 import { data_list, category_list } from "./data";
@@ -40,14 +40,46 @@ function ProductTable(props) {
     </div>
   );
 }
-class SearchBar extends React.Component{
+class SearchBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isToggleOn: true};
+    this.state = { input: "" };
+    this.handleChange = this.handleChange.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+  handleChange(e) {
+    this.setState({ input: e.target.value });
+  }
 
+  onChange() {
+    this.setState((input) => ({
+      input: input,
+    }));
+  }
+  render() {
+    return (
+      <div>
+        <Input
+          placeholder="Search"
+          value={this.state.input}
+          onChange={this.handleChange}
+        />
+        <Checkbox onChange={this.onChange}>Checkbox</Checkbox>
+      </div>
+    );
   }
 }
+
+function FilterableProductTable(props) {
+  return (
+    <div>
+      <SearchBar></SearchBar>
+
+      <ProductTable d={props.d} c={props.c} />
+    </div>
+  );
+}
 ReactDOM.render(
-  <ProductTable d={data_list} c={category_list} />,
+  <FilterableProductTable d={data_list} c={category_list} />,
   document.getElementById("root")
 );
