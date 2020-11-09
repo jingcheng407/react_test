@@ -8,7 +8,7 @@ import { data_list, category_list } from "./data";
 function ProductRows(props) {
   return (
     <text>
-      {props.data.name} {props.data.price}
+      {props.data.name} {props.data.price} {props.data.stocked.toString()}
     </text>
   );
 }
@@ -36,7 +36,7 @@ function ProductTable(props) {
   return (
     <div>
       <h2>Name Price</h2>
-      <ul>{list}</ul>
+      {list}
     </div>
   );
 }
@@ -44,14 +44,14 @@ class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = { input: "" };
-    this.handleChange = this.handleChange.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.onCheckboxChange = this.onCheckboxChange.bind(this);
   }
-  handleChange(e) {
+  handleInputChange(e) {
     this.setState({ input: e.target.value });
   }
 
-  onChange() {
+  onCheckboxChange() {
     this.setState((input) => ({
       input: input,
     }));
@@ -62,15 +62,16 @@ class SearchBar extends React.Component {
         <Input
           placeholder="Search"
           value={this.state.input}
-          onChange={this.handleChange}
+          onChange={this.handleInputChange}
         />
-        <Checkbox onChange={this.onChange}>Checkbox</Checkbox>
+        <Checkbox onChange={this.onCheckboxChange}>只显示有库存</Checkbox>
       </div>
     );
   }
 }
 
 function FilterableProductTable(props) {
+  
   return (
     <div>
       <SearchBar></SearchBar>
